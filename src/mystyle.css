@@ -1,0 +1,72 @@
+
+
+
+  #header {
+    background: #002855;
+    color: #EAAA00;
+    padding: 20px;
+    }
+  
+  #sidebar {
+    float: right;
+    width: 20%;
+    background: #999;
+    }
+  
+  #content {
+    margin-right: 34%;
+    margin-left: 6%;
+    }
+  
+
+/*
+  #footer {
+    clear: right;
+    background: #eee;
+    padding: 20px;
+  text-align: center;
+*/
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+
+    }
+
+
+
+
+
+
+
+div#multicolList2 {
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 20px;
+    column-count: 2;
+    column-gap: 20px;
+}
+
+
+/**
+ * Footer Styles
+ */
+
+/*
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+*/
