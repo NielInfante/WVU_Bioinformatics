@@ -1,7 +1,14 @@
 <head>
 	<title>WVU Bioinformatics</title>
-	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
-	<link rel="stylesheet" type="text/css" href="mystyle.css">
+<!--	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/themes/prism.min.css">
+	<link rel='stylesheet' type='text/css' href='prism.css'>
+-->
+
+	<link rel="stylesheet" href="src/tomorrow.css">
+	<script src="src/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
+	<link rel="stylesheet" type="text/css" href="src/mystyle.css">
 	<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 	<link rel="icon" type="image/x-icon" href="images/favicon.ico">
 
@@ -33,6 +40,37 @@
   guides(color = guide_legend(override.aes = list(size=5))) + scale_color_brewer(palette = 'Dark2') 
     </code></pre></td>
   </tr>
+
+  <tr>
+  	<td><img src='images/Abundance_heatmap.png' alt='Abundance heatmap'></td>
+  	<td>This heatmap shows abundance of taxa for each sample, while giving group colors on the left. This presumes you have the data in a phyloseq object called ps.
+
+  		<pre><code class='language-r'>
+
+library(phyloseq)
+library(gplots)
+library(RColorBrewer)
+
+otu <- as.matrix(otu_table(ps))
+otu <- log10((otu + 1))
+
+bw <- colorRampPalette(c('white','blue'))
+
+# The metadata has a column called Color
+# The metadata should be in the same order as the otu table.
+# Phyloseq preserves order, so this should happen automatically.
+meta <- read.table('metadata.txt', header=T, stringsAsFactors = F)
+
+heatmap.2(otu, trace="none", col = bw, margin=c(6, 6), density.info = 'none',
+     RowSideColors = meta$Color, labCol=F, key.title=NA, 
+     key.xlab='Log Abundance', cexRow = 1.7)
+
+
+
+
+		</code></pre>
+	</td>
+	</tr>
 </table>
 
 
@@ -40,13 +78,18 @@
 </div>
 
 
-<div id="footer">
+<br><br><br><br>
+<div class="footer">
 	Please acknowledge the following grants:<br>
 	WV IDea Network for Biomedical Research Excellence (INBRE) NIH grant P20 GM103434 <br>
 	WV IDeA CTR NIH U54 GM104942 	
 </div>
 
+<!--
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-r.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.0/prism.min.js"></script>
+<script src='prism.js'>
+-->
+
 </body>
 
