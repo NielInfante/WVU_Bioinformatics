@@ -19,6 +19,42 @@
     }
   
 
+
+
+
+
+#anal_table {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#anal_table  td:first-child{
+  font-weight:bold;
+}
+
+#anal_table td:not(:first-child){text-align:center;}
+#anal_table th:not(:first-child){text-align:center;}
+
+
+
+#anal_table td, #anal_table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#anal_table tr:nth-child(even){background-color: #f2f2f2;}
+
+#anal_table tr:hover {background-color: #ddd;}
+
+#anal_table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #EAAA00;
+  color: #002855;
+}
+
+
 /*
   #footer {
     clear: right;
