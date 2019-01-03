@@ -32,8 +32,17 @@
 
 
 <div id="content">
+<br><br><br>
 
 <table>
+
+<!--       Circle Tree     -->
+
+  <tr>
+  	<td colspan='2' align='center'>
+  		<h2>Circular Phylogenetic Tree</h2>
+  	</td>
+  </tr>
   <tr>
     <td><img src='images/tree.png' alt='tree'></td>
     <td>Using the phyloseq function plot_tree:<pre><code class='language-R'>plot_tree(ps, ladderize="left", color="Treatment", size='abundance') + coord_polar(theta="y") + 
@@ -41,6 +50,16 @@
     </code></pre></td>
   </tr>
 
+
+
+
+<!--     Heatmap with side colors.  -->
+
+  <tr>
+  	<td colspan='2' align='center'>
+  		<h2>Heatmap with Side Colors</h2>
+  	</td>
+  </tr>
   <tr>
   	<td><img src='images/Abundance_heatmap.png' alt='Abundance heatmap'></td>
   	<td>This heatmap shows abundance of taxa for each sample, while giving group colors on the left. This presumes you have the data in a phyloseq object called ps.
@@ -65,12 +84,60 @@ heatmap.2(otu, trace="none", col = bw, margin=c(6, 6), density.info = 'none',
      RowSideColors = meta$Color, labCol=F, key.title=NA, 
      key.xlab='Log Abundance', cexRow = 1.7)
 
+		</code></pre>
+	</td>
+	</tr>
 
+
+<!--      Swapping heatmap sides.  -->
+
+	<tr>
+		<td colspan='2' align='center'>
+			<h2>Swapping Groups in a Heatmap</h2>
+		</td>
+	</tr>
+	<tr>
+		<td><img src='images/heat1.png' alt='Heat 1'><img src='images/heat_swapped.png' alt='Swapped'></td>
+		<td>Here I wanted the clustering for the columns to be the same, but I wanted the group on the left to be on the right. 
+			<pre><code class='language-r'>
+
+
+library(gplots)
+library(RColorBrewer)
+
+hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
+
+# m is a matrix of values
+
+# Heatmap as originally plotted:
+heatmap.2(m, col=hmcol, dendrogram='column', trace='none', margin=c(5,6), 
+					density.info='none', Rowv=F)
+
+
+# I construct the dendrogram outside the heatmap call, 
+# and then play with the weights some so that a reording gives me what I want
+# heatmap.2 is then called with the dendrogram specified.
+
+hc <- hclust(dist(t(m)))
+
+asDD <- as.dendrogram(hc)
+
+weights.dd <- ifelse(colnames(m) == "JC-61", yes = 1, no = 50) + 
+	ifelse(colnames(m) == "JC-51", yes = 950, no = 0)
+
+dd.reordered <- reorder(asDD, wts=weights.dd, agglo.FUN=mean)
+
+heatmap.2(m, col=hmcol, dendrogram='column', trace='none', margin=c(5,6), 
+					density.info='none', Colv=dd.reordered, Rowv=F)
 
 
 		</code></pre>
 	</td>
 	</tr>
+
+
+
+
 </table>
 
 
