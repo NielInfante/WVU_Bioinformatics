@@ -7,10 +7,114 @@
 </head>
 
 
-<h1 style="text-align: center">RNA seq Results</h1>
 
-Here is an explanation of what you can expect back from an RNA seq analysis. Every project is different, so these may not apply to your project, or what you want may not be listed here. I can do more than is shown, just ask.
+<div id="header">
+	<h1 style="text-align: center">WVU Bioinformatics</h1>
+	<h2 style="text-align: center">RNA seq Results</h2>
+</div>
+
+
+<div id="sidebar">
+<p><strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLinks</strong></p>
+<ul>
+	<li><a href="https://genomics.wvu.edu/">WVU Genomics Core</a></li>
+	<li><a href="https://wvu.corefacilities.org/account/login">Request Services via iLab</a></li>
+	<li><a href="gallery.html">Figure Gallery</a></li>
+	<li><a href="index.html">Home</a></li>
+</ul>
+</div>
+
+
+<div id="content">
+
+	<br><br><br><br>
+
+
+<h4>
+	Here is an explanation of what you can expect back from an RNA seq analysis. Every project is different, so these may not apply to your project, or what you want may not be listed here. I can do more than is shown, just ask.
+</h4>
+
+<p>
+	Each comparisson I do will have its own prefix, usually something like AvsB, denoting that I am comparing group A to group B. Here I explain the different suffixes you will recieve.
+
+<h3>_results.txt</h3>
+<p>
+	The most important file you will get back. This is a text file that contains the results of the differential expression analysis. 
+</p>
+
+<table id='res_table'>
+	<tr>
+		<th>GeneID</th>
+		<th>Gene</th>
+		<th>baseMean</th>
+		<th>stat</th>
+		<th>log2FoldChange</th>
+		<th>pvalue</th>
+		<th>padj</th>
+	</tr>
+	<tr>
+		<td>ENSG00000275708</td>
+		<td>MIR3648-1</td>
+		<td>27811.5206</td>
+		<td>12.22073333</td>
+		<td>1.65246590</td>
+		<td>2.409017e&#8209;34</td>
+		<td>4.752268e&#8209;30</td>
+	</tr>
+	<tr>
+		<td>ENSG00000149021</td>
+		<td>SCGB1A1</td>
+		<td>178.959124</td>
+		<td>10.63627568</td>
+		<td>3.788769811</td>
+		<td>2.020440e&#8209;26</td>
+		<td>1.992869e&#8209;22</td>
+	</tr>
+	<tr>
+		<td>ENSG00000221288</td>
+		<td>MIR663B</td>
+		<td>1410.38935</td>
+		<td>9.791781822</td>
+		<td>1.735266127</td>
+		<td>1.221249e&#8209;22</td>
+		<td>8.030491e&#8209;19</td>
+	<tr>
+		<td>ID of the gene, usually an Ensembl ID, but will vary depending on the reference used</td>
+		<td>Gene symbol, if available. Gene ID otherwise</td>
+		<td>The average normalized expression of all the samples. The actual value does not mean much. Higher values mean the gene was more highly expressed than a gene with a low number. This is mostly used as a caution if the fold change looks too big.</td>
+		<td>The test statistic used to calculate the p-value</td>
+		<td>The Log base 2 fold change. A value of 3 means the gene is 8 fold higher, a value of -1 means two fold down. To verify which is up and which is down, consult the sanity check figure.</td>
+		<td>p-value. Don't use this.</td>
+		<td>Benjamini-Hockberg corrected p-value. Use this.</td>
+	</tr>
+
+</table>
+<br><br>
+
+<h3>_significant.txt</h3>
+<p>
+	This is a subset of the results file. It contains just those genes whith an adjusted p value less than 0.05. By default, I do not consider fold change in determining significance, though that can easily be incorporated if that is better for your project.
+</p>
+
+<h3>_sanity_check.png</h3>
+<p>
+	This is a figure plotting the expression of the most significant gene for each sample. I include this so that it is easy to see which direction the fold change is going. The specific gene plotted will be the top gene in the _results.txt (and _significant.txt) file. Here you can see that gene MIR3648-1 has a Log2 Fold Change of 1.6. The sanity check clearly shows that means there is higher expression in the "wo" grop than the "9d" group. All positive fold changes will be the same, and negative fold changes are the reverse. Note that this figure is frequently plotted in log scale.
+
+</p>
+<img src='images/rna_sanity.png' alt="Sanity Plot">
 
 
 
-More Here.
+
+
+
+</div>
+
+
+
+<br><br><br><br>
+<div class="footer">
+	Please acknowledge the following grants:<br>
+	WV IDea Network for Biomedical Research Excellence (INBRE) NIH grant P20 GM103434 <br>
+	WV IDeA CTR NIH U54 GM104942 	
+</div>
