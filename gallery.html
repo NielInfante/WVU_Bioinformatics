@@ -45,8 +45,8 @@
   </tr>
   <tr>
     <td><img src='images/tree.png' alt='tree'></td>
-    <td>Using the phyloseq function plot_tree:<pre><code class='language-R'>plot_tree(ps, ladderize="left", color="Treatment", size='abundance') + coord_polar(theta="y") + 
-  guides(color = guide_legend(override.aes = list(size=5))) + scale_color_brewer(palette = 'Dark2') 
+    <td>Using the phyloseq function plot_tree:<pre><code class='language-R'>plot_tree(ps, ladderize="left", color="Treatment", size='abundance') + coord_polar(theta="y") +
+  guides(color = guide_legend(override.aes = list(size=5))) + scale_color_brewer(palette = 'Dark2')
     </code></pre></td>
   </tr>
 
@@ -81,7 +81,7 @@ bw <- colorRampPalette(c('white','blue'))
 meta <- read.table('metadata.txt', header=T, stringsAsFactors = F)
 
 heatmap.2(otu, trace="none", col = bw, margin=c(6, 6), density.info = 'none',
-     RowSideColors = meta$Color, labCol=F, key.title=NA, 
+     RowSideColors = meta$Color, labCol=F, key.title=NA,
      key.xlab='Log Abundance', cexRow = 1.7)
 
 		</code></pre>
@@ -98,7 +98,7 @@ heatmap.2(otu, trace="none", col = bw, margin=c(6, 6), density.info = 'none',
 	</tr>
 	<tr>
 		<td><img src='images/heat1.png' alt='Heat 1'><img src='images/heat_swapped.png' alt='Swapped'></td>
-		<td>Here I wanted the clustering for the columns to be the same, but I wanted the group on the left to be on the right. 
+		<td>Here I wanted the clustering for the columns to be the same, but I wanted the group on the left to be on the right.
 			<pre><code class='language-r'>
 
 
@@ -110,11 +110,11 @@ hmcol <- colorRampPalette(brewer.pal(9, "GnBu"))(100)
 # m is a matrix of values
 
 # Heatmap as originally plotted:
-heatmap.2(m, col=hmcol, dendrogram='column', trace='none', margin=c(5,6), 
+heatmap.2(m, col=hmcol, dendrogram='column', trace='none', margin=c(5,6),
 					density.info='none', Rowv=F)
 
 
-# I construct the dendrogram outside the heatmap call, 
+# I construct the dendrogram outside the heatmap call,
 # and then play with the weights some so that a reording gives me what I want
 # heatmap.2 is then called with the dendrogram specified.
 
@@ -122,18 +122,64 @@ hc <- hclust(dist(t(m)))
 
 asDD <- as.dendrogram(hc)
 
-weights.dd <- ifelse(colnames(m) == "JC-61", yes = 1, no = 50) + 
+weights.dd <- ifelse(colnames(m) == "JC-61", yes = 1, no = 50) +
 	ifelse(colnames(m) == "JC-51", yes = 950, no = 0)
 
 dd.reordered <- reorder(asDD, wts=weights.dd, agglo.FUN=mean)
 
-heatmap.2(m, col=hmcol, dendrogram='column', trace='none', margin=c(5,6), 
+heatmap.2(m, col=hmcol, dendrogram='column', trace='none', margin=c(5,6),
 					density.info='none', Colv=dd.reordered, Rowv=F)
 
 
 		</code></pre>
 	</td>
 	</tr>
+
+
+
+	<!--       Inset Graph     -->
+
+	  <tr>
+	  	<td colspan='2' align='center'>
+	  		<h2>Graph With Inset Graph</h2>
+	  	</td>
+	  </tr>
+	  <tr>
+	    <td><img src='images/insert.png' alt='tree'></td>
+	    <td>I have a DESeq object with data in dds, as well as a subset of results in pathway.genes. Using packages ggplot2 and cowplot:<pre><code class='language-R'>
+top <- pathway.genes %>% filter(abs(log2FoldChange) == max(abs(log2FoldChange)))
+
+id <- as.character(top[1,'GeneID'])
+name <- as.character(top[1,'Gene'])
+inset.data <- plotCounts(dds, gene=id, intgroup = 'Status', main=name, pch=19, returnData = T)
+
+# Construct te graph to be inset
+inset <- ggplot(inset.data, aes(x=Status, y=count)) + geom_jitter(width = .06) + scale_y_log10() +
+	theme_bw() + theme(plot.title = element_text(hjust = 0.5)) + labs(title=name) +
+	theme(panel.grid.major = element_blank(),	panel.grid.minor = element_blank(),
+		axis.text = element_text(angle=90))
+
+# Construct the outer graph
+p <- 	ggplot(pathway.genes, aes(Gene, log2FoldChange)) +
+	geom_col(aes(fill=padj<0.05)) +
+	coord_flip() + ylim(-2.3,2) +
+	labs(x="Gene", y="Log 2 Fold Change", title=title) +
+	theme_minimal() + scale_fill_manual(values=c('grey','red'))
+
+# draw the plot, then the inset over it. Numbers are x, y, height, width as percentages
+cowplot <-	ggdraw(p) + draw_plot(inset, .7,.7,.3,.3)
+
+# Save using the cowplot function
+save_plot(file, cowplot, base_height = 6, base_width = 4)
+
+
+			</code></pre></td>
+	  </tr>
+
+
+
+
+
 
 
 
@@ -149,7 +195,7 @@ heatmap.2(m, col=hmcol, dendrogram='column', trace='none', margin=c(5,6),
 <div class="footer">
 	Please acknowledge the following grants:<br>
 	WV IDea Network for Biomedical Research Excellence (INBRE) NIH grant P20 GM103434 <br>
-	WV IDeA CTR NIH U54 GM104942 	
+	WV IDeA CTR NIH U54 GM104942
 </div>
 
 <!--
@@ -159,4 +205,3 @@ heatmap.2(m, col=hmcol, dendrogram='column', trace='none', margin=c(5,6),
 -->
 
 </body>
-
